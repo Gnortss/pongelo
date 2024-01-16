@@ -1,57 +1,17 @@
 import {nanoid} from "nanoid"
 import {persistData, loadData} from './persist.imba'
+import "./match-form.imba"
+import "./leaderboard.imba"
+import "./player-form.imba"
 
-global css body c:warm2 bg:warm8 ff:Arial inset:0 d:vflex mx:auto
-global css .dstyle e:250ms c:white us:none py:3 px:5 rd:4 bg:gray9 mx:5px g:1 bd:1px solid transparent @hover:indigo5
-
-tag match-form
-	prop players
-
-	p1 = undefined
-	p2 = undefined
-
-	def setup
-		if players.length < 2
-			return
-		p1 = players[0].id
-		p2 = players[1].id
-
-	<self>
-		<form @submit.prevent.emit("addMatch", {p1: p1, p2: p2})>
-			<label> "Player 1"
-			<select .dstyle bind=p1> 
-				for p in players
-					<option value=p.id> p.name
-			<label> "Player 2"
-			<select .dstyle bind=p2> for p in players
-				<option value=p.id> p.name
-			<button .dstyle type="submit"> "Add Match"
-
-
-tag leaderboard
-	prop players
-
-	<self>
-		for p in players
-			<div [d:hflex]>
-				<div .dstyle> p.name
-				<div .dstyle> p.rating
-
-tag player-form
-	prop name = ""
-
-	def handleSubmit
-		emit("addPlayer", name)
-		name = ""	
-
-	<self>
-		<form @submit.prevent.throttle(1000)=handleSubmit>
-			<input type="text" .dstyle placeholder="Player Name" bind=name>
-			<button .dstyle type="submit"> "Add Player"
+global css body p:0 c:warm2 bg:warm8 ff:Arial inset:0 d:vflex mx:auto my: 0
+# global css .dstyle e:250ms c:white us:none py:3 px:5 rd:4 bg:gray9 mx:5px g:1 bd:1px solid transparent @hover:indigo5
 
 tag app
 	players = []
 	matches = []
+
+	onLeaderboard = true
 
 	def rating Ra, Rb, d, K=32
 		def prob(r1, r2)
@@ -106,11 +66,23 @@ tag app
 		players = data.players
 		matches = data.matches
 
+	css .nav-button w: 50% h: 3em c:warm2 bgc:warm8 @hover:warm7 bd: 0px
+	css .wrapper
+		width: 600px
+		mx: auto
+		# bg: warm6
+	css .selected bgc:warm7
 
 	<self>
-		if players.length > 1
-			<match-form [my:10px] players=players @addMatch=addMatch>
-		<leaderboard [my:10px] players=players>
-		<player-form [my:10px] @addPlayer=addPlayer>
+		<div .wrapper>
+			<nav>
+				<button .nav-button .selected=onLeaderboard @click=(do() onLeaderboard=true)> "Leaderboard"
+				<button .nav-button .selected=!onLeaderboard @click=(do() onLeaderboard=false)> "Settings"
+			if onLeaderboard
+				<leaderboard [my:10px] players=players visible=onLeaderboard>
+			else
+				if players.length > 1
+					<match-form [my:10px] players=players @addMatch=addMatch>
+				<player-form [my:10px] @addPlayer=addPlayer visible=!onLeaderboard>
 
 imba.mount <app>
