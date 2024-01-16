@@ -37,7 +37,7 @@ tag app
 		persist!
 
 	def addMatch e
-		if e.detail..p1 === undefined or e.detail..p2 === undefined or e.detail.p1 === e.detail.p2
+		if e.detail..p1 === undefined or e.detail..p2 === undefined or e.detail..winner === undefined or e.detail.p1 === e.detail.p2
 			return
 
 		p1 = players.find(do(el) el.id === e.detail.p1)
@@ -46,9 +46,9 @@ tag app
 		oldR1 = p1.rating
 		oldR2 = p2.rating
 
-		[newR1, newR2] = rating(oldR1, oldR2, false)
+		[newR1, newR2] = rating(oldR1, oldR2, e.detail.winner === p1.id)
 
-		matches.push({p1: e.detail.p1, p2: e.detail.p2, stats: {p1change: oldR1 - newR1, p2change: oldR2 - newR2, winner: p1.id}})
+		matches.push({p1: e.detail.p1, p2: e.detail.p2, stats: {p1change: oldR1 - newR1, p2change: oldR2 - newR2, winner: winner}})
 		# update players
 		for p in players
 			if p.id == p1.id
