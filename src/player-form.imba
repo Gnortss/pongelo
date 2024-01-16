@@ -1,9 +1,11 @@
 tag player-form
-	prop name = ""
+	name = ""
+	rating = 1200
 
 	def handleSubmit
-		emit("addPlayer", name)
-		name = ""	
+		emit("addPlayer", {name: name, rating: rating})
+		name = ""
+		rating = 1200	
 
 	css m:1em
 	css form d:vflex ja:stretch mx:1em
@@ -16,4 +18,5 @@ tag player-form
 				button bg: warm8 c:warm2 bd:1px solid warm5 @hover:warm4 py:.5em
 			<row>
 				<input type="text" placeholder="Player Name" bind=name>
+				<input type="number" placeholder="Rating" min=700 max=1800 bind=rating>
 				<button type="submit"> "Add Player"

@@ -1,6 +1,9 @@
 tag leaderboard
 	prop players
 
+	def handleDelete id
+		emit("deletePlayer", id)
+
 	<self>
 		css table
 			th w:150px border-bottom: 1px solid
@@ -10,6 +13,6 @@ tag leaderboard
 				<th> "Player"
 				<th> "Rating"
 			for p in players.sort(do(a,b) b.rating - a.rating)
-				<tr>
+				<tr @click.ctrl.shift=handleDelete(p.id)>
 					<td> p.name
 					<td> Math.floor(p.rating)

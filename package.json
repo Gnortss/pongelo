@@ -9,7 +9,8 @@
   "devDependencies": {
     "imba": "^2.0.0-alpha.234",
     "vite": "^5.0.11",
-    "vite-plugin-imba": "^0.10.3"
+    "vite-plugin-imba": "^0.10.3",
+    "wrangler": "3.18"
   },
   "dependencies": {
     "nanoid": "^5.0.4"

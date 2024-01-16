@@ -17,7 +17,7 @@ tag match-form
 
 	<self>
 		<h2> "Insert match:"
-		<form @submit.prevent.emit("addMatch", {p1: p1, p2: p2, winner: winner})>
+		<form @submit.prevent.throttle(1000).emit("addMatch", {p1: p1, p2: p2, winner: winner})>
 			css row pb: .5em
 				label mr:.5em
 				select height: 2em bg:warm8 c:warm2 w:auto
