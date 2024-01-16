@@ -5,7 +5,6 @@ import "./leaderboard.imba"
 import "./player-form.imba"
 
 global css body p:0 c:warm2 bg:warm8 ff:Arial inset:0 d:vflex mx:auto my: 0
-# global css .dstyle e:250ms c:white us:none py:3 px:5 rd:4 bg:gray9 mx:5px g:1 bd:1px solid transparent @hover:indigo5
 
 tag app
 	players = []
@@ -33,7 +32,6 @@ tag app
 		if e.detail === ""
 			return
 		players.push({name: e.detail, rating: 1000, id: nanoid()})
-		console.log(JSON.stringify(players))
 		persist!
 
 	def addMatch e
@@ -68,7 +66,7 @@ tag app
 
 	css .nav-button w: 50% h: 3em c:warm2 bgc:warm8 @hover:warm7 bd: 0px
 	css .wrapper
-		width: 600px
+		width: min(100vw, 600px)
 		mx: auto
 		# bg: warm6
 	css .selected bgc:warm7
