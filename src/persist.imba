@@ -9,6 +9,6 @@ export def loadData
 		try
 			JSON.parse(dataString)
 		catch
-			return []
+			return {players: [], matches: []}
 	else
-		return []
+		return {players: [], matches: []}

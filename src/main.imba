@@ -78,7 +78,6 @@ tag app
 
 	def addMatch e
 		if e.detail..p1 === undefined or e.detail..p2 === undefined or e.detail.p1 === e.detail.p2
-			console.log("ups")
 			return
 
 		p1 = players.find(do(el) el.id === e.detail.p1)
@@ -104,12 +103,13 @@ tag app
 
 	def setup
 		let data = loadData()
-		players = if data..players != undefined then data.players
-		matches = if data..matches != undefined then data.matches
+		players = data.players
+		matches = data.matches
 
 
 	<self>
-		<match-form [my:10px] players=players @addMatch=addMatch>
+		if players.length > 1
+			<match-form [my:10px] players=players @addMatch=addMatch>
 		<leaderboard [my:10px] players=players>
 		<player-form [my:10px] @addPlayer=addPlayer>
 
