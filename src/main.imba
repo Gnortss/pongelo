@@ -51,7 +51,9 @@ tag app
 
 		let match = {id: nanoid(), p1_id: p1.id, p2_id: p2.id, p1_wins: e.detail.winner === p1.id ? 1 : 0, p2_wins: e.detail.winner === p2.id ? 1 : 0, p1_rating_diff: oldR1 - newR1, p2_rating_diff: oldR2 - newR2}
 		matches.push(match)
-		callAPI("/api/matches/insert", match)
+		callAPI("/api/matches/insert", match).then(do()
+			window.alert("{p1.name} {Math.floor(newR1)}({Math.floor(newR1 - oldR1)}) vs ({Math.floor(newR2 - oldR2)}){Math.floor(newR2)} {p2.name}")
+		)
 		callAPI("/api/players/update", {id: p1.id, rating: newR1})
 		callAPI("/api/players/update", {id: p2.id, rating: newR2})
 		# update players

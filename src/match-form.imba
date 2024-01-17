@@ -36,4 +36,4 @@ tag match-form
 				<select bind=winner> for p in players.filter(do(el) el.id === p1 or el.id === p2)
 					<option value=p.id> p.name
 			<row>
-				<button type="submit"> "Add Match"
+				<button type="submit"> "Add Match Results"
