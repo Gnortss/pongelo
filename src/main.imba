@@ -43,13 +43,21 @@ tag app
 
 		p1 = players.find(do(el) el.id === e.detail.p1)
 		p2 = players.find(do(el) el.id === e.detail.p2)
-		
+
+		console.log "{p1.name} vs {p2.name}, winner: {e.detail.winner === p1.id ? p1.name : p2.name}"
+
 		oldR1 = p1.rating
 		oldR2 = p2.rating
 
+		console.log "ratings: {p1.name}:{p1.rating}, {p2.name}:{p2.rating}"
+
 		[newR1, newR2] = rating(oldR1, oldR2, e.detail.winner === p1.id)
 
+		console.log "new ratings: {p1.name}:{newR1}, {p2.name}:{newR2}"
+
 		let match = {id: nanoid(), p1_id: p1.id, p2_id: p2.id, p1_wins: e.detail.winner === p1.id ? 1 : 0, p2_wins: e.detail.winner === p2.id ? 1 : 0, p1_rating_diff: oldR1 - newR1, p2_rating_diff: oldR2 - newR2}
+
+		console.log "adding match: {JSON.stringify(match)}"
 		matches.push(match)
 		callAPI("/api/matches/insert", match).then(do()
 			window.alert("{p1.name} {Math.floor(newR1)}({Math.floor(newR1 - oldR1)}) vs ({Math.floor(newR2 - oldR2)}){Math.floor(newR2)} {p2.name}")
