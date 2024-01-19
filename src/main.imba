@@ -47,6 +47,11 @@ tag app
 		oldR1 = p1.rating
 		oldR2 = p2.rating
 
+		console.log "Winner {p1_wins>p2_wins?p1.name:p2.name}"
+		console.log(typeof p1_wins)
+		console.log "{p1_wins}:{p2_wins}"
+		console.log(p1_wins>p2_wins)
+
 		[newR1, newR2] = rating(oldR1, oldR2, p1_wins > p2_wins)
 
 		let match = {id: nanoid(), p1_id: p1.id, p2_id: p2.id, p1_wins: p1_wins, p2_wins: p2_wins, p1_rating_diff: newR1 - oldR1, p2_rating_diff: newR2 - oldR2}
