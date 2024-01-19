@@ -47,6 +47,9 @@ tag app
 		oldR1 = p1.rating
 		oldR2 = p2.rating
 
+		p1_wins = e.detail.p1_wins
+		p2_wins = e.detail.p2_wins
+
 		console.log "Winner {p1_wins>p2_wins ? p1.name : p2.name}"
 		console.log(typeof p1_wins)
 		console.log "{p1_wins}:{p2_wins}"
