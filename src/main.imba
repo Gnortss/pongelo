@@ -41,33 +41,46 @@ tag app
 		if e.detail..p1 === undefined or e.detail..p2 === undefined or e.detail..p1_wins === undefined or e.detail..p2_wins === undefined or e.detail.p1 === e.detail.p2 or e.detail.p1_wins === e.detail.p2_wins
 			return
 
-		p1 = players.find(do(el) el.id === e.detail.p1)
-		p2 = players.find(do(el) el.id === e.detail.p2)
+		callAPI("/api/players/get", {}).then( do(d) 
+			players = d.results
 
-		oldR1 = p1.rating
-		oldR2 = p2.rating
+			p1 = players.find(do(el) el.id === e.detail.p1)
+			p2 = players.find(do(el) el.id === e.detail.p2)
 
-		p1_wins = e.detail.p1_wins
-		p2_wins = e.detail.p2_wins
+			oldR1 = p1.rating
+			oldR2 = p2.rating
 
-		[newR1, newR2] = rating(oldR1, oldR2, p1_wins > p2_wins)
+			p1_wins = e.detail.p1_wins
+			p2_wins = e.detail.p2_wins
 
-		let match = {id: nanoid(), p1_id: p1.id, p2_id: p2.id, p1_wins: p1_wins, p2_wins: p2_wins, p1_rating_diff: newR1 - oldR1, p2_rating_diff: newR2 - oldR2}
+			[newR1, newR2] = rating(oldR1, oldR2, p1_wins > p2_wins)
 
-		matches.push(match)
-		callAPI("/api/matches/insert", match).then(do()
-			window.alert("{p1.name} {Math.floor(newR1)}({Math.floor(newR1 - oldR1)}) vs ({Math.floor(newR2 - oldR2)}){Math.floor(newR2)} {p2.name}")
+			let match = {
+				id: nanoid()
+				p1_id: p1.id
+				p2_id: p2.id
+				p1_wins: p1_wins
+				p2_wins: p2_wins
+				p1_rating_diff: newR1 - oldR1
+				p2_rating_diff: newR2 - oldR2
+				created_at: Date.now!
+			}
+
+			matches.push(match)
+			callAPI("/api/matches/insert", match).then do()
+				window.alert("{p1.name} {Math.floor(newR1)}({Math.floor(newR1 - oldR1)}) vs ({Math.floor(newR2 - oldR2)}){Math.floor(newR2)} {p2.name}")
+			
+			callAPI("/api/players/update", {id: p1.id, rating: newR1})
+			callAPI("/api/players/update", {id: p2.id, rating: newR2})
+			# update players
+			for p in players
+				if p.id == p1.id
+					p.rating = newR1
+				elif p.id == p2.id
+					p.rating = newR2
+			imba.commit!
+			# persist!
 		)
-		callAPI("/api/players/update", {id: p1.id, rating: newR1})
-		callAPI("/api/players/update", {id: p2.id, rating: newR2})
-		# update players
-		for p in players
-			if p.id == p1.id
-				p.rating = newR1
-			elif p.id == p2.id
-				p.rating = newR2
-		imba.commit!
-		# persist!
 
 	def deletePlayer e
 		if e.detail === undefined
