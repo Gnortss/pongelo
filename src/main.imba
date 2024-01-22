@@ -4,6 +4,7 @@ import {callAPI} from "./api.js"
 import "./match-form.imba"
 import "./leaderboard.imba"
 import "./player-form.imba"
+import "./match-history.imba"
 
 global css body p:0 c:warm2 bg:warm8 ff:Arial inset:0 d:vflex mx:auto my: 0
 
@@ -35,7 +36,6 @@ tag app
 		let player = {name: e.detail.name, rating: e.detail.rating, id: nanoid()}
 		players.push(player)
 		callAPI("/api/players/insert", player)
-		# persist!
 
 	def addMatch e
 		if e.detail..p1 === undefined or e.detail..p2 === undefined or e.detail..p1_wins === undefined or e.detail..p2_wins === undefined or e.detail.p1 === e.detail.p2 or e.detail.p1_wins === e.detail.p2_wins
@@ -79,7 +79,6 @@ tag app
 				elif p.id == p2.id
 					p.rating = newR2
 			imba.commit!
-			# persist!
 		)
 
 	def deletePlayer e
@@ -90,16 +89,39 @@ tag app
 			imba.commit!
 		)
 
-	def persist
-		persistData({players: players, matches: matches})
+	def revertMatch e
+		def getPlayer id
+			for p in players
+				if p.id === id
+					return p
+			return null
 
-	def setup
+		match_to_delete = undefined
+		for m in matches
+			if m.id === e.detail
+				match_to_delete = m
+		if match_to_delete === undefined
+			return
+		p1 = getPlayer match_to_delete.p1_id
+		p2 = getPlayer match_to_delete.p2_id
+		if p1 != undefined
+			callAPI("/api/players/update", {id: p1.id, rating: p1.rating - match_to_delete.p1_rating_diff})
+		if p2 != undefined
+			callAPI("/api/players/update", {id: p2.id, rating: p2.rating - match_to_delete.p2_rating_diff})
+		callAPI("/api/matches/delete", {id: e.detail}).then(do() 
+			refresh!
+		)
+
+	def refresh
 		callAPI("/api/players/get", {}).then do(d) 
 			players = d.results
 			imba.commit!
 		callAPI("/api/matches/get", {}).then do(d) 
 			matches = d.results
 			imba.commit!
+
+	def setup
+		refresh!
 
 	css .nav-button w: 50% h: 3em c:warm2 bgc:warm8 @hover:warm7 bd: 0px
 	css .wrapper
@@ -115,6 +137,7 @@ tag app
 				<button .nav-button .selected=!onLeaderboard @click=(do() onLeaderboard=false)> "Settings"
 			if onLeaderboard
 				<leaderboard [my:10px] players=players @deletePlayer=deletePlayer visible=onLeaderboard>
+				<match-history matches=matches players=players @revertMatch=revertMatch visible=onLeaderboard>
 			else
 				if players.length > 1
 					<match-form [my:10px] players=players @addMatch=addMatch>
