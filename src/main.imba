@@ -136,7 +136,7 @@ tag app
 				<button .nav-button .selected=onLeaderboard @click=(do() onLeaderboard=true)> "Leaderboard"
 				<button .nav-button .selected=!onLeaderboard @click=(do() onLeaderboard=false)> "Settings"
 			if onLeaderboard
-				<leaderboard [my:10px] players=players @deletePlayer=deletePlayer visible=onLeaderboard>
+				<leaderboard [my:10px] matches=matches players=players @deletePlayer=deletePlayer visible=onLeaderboard>
 				<match-history matches=matches players=players @revertMatch=revertMatch visible=onLeaderboard>
 			else
 				if players.length > 1
