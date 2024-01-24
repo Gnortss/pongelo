@@ -16,6 +16,9 @@ tag match-history
 	def getColor rating
 		if rating > 0 then "green" else "red"
 
+	def recentMatches
+		return matches.sort(do(a,b) b.created_at - a.created_at).slice(0, 10)
+
 	css .match d:hflex ja:center my:.5em bgc: warm7 width:auto
 		.item mx:.25em my:.25em p:.25em
 
@@ -23,7 +26,7 @@ tag match-history
 		<h2 [text-align: center mt:2em]> "History"
 		<div>
 			playersdc = JSON.parse(JSON.stringify(players))
-			for m, i in matches.sort(do(a,b) b.created_at - a.created_at)
+			for m in recentMatches!
 				p1 = getPlayer m.p1_id
 				p2 = getPlayer m.p2_id
 
