@@ -67,8 +67,9 @@ tag app
 			}
 
 			matches.push(match)
-			callAPI("/api/matches/insert", match).then do()
-				window.alert("{p1.name} {Math.floor(newR1)}({Math.floor(newR1 - oldR1)}) vs ({Math.floor(newR2 - oldR2)}){Math.floor(newR2)} {p2.name}")
+			callAPI("/api/matches/insert", match).then(do()
+				emit("matchAdded", {p1_rating: newR1, p2_rating: newR2, p1_rating_diff: newR1 - oldR1, p2_rating_diff: newR2 - oldR2})
+			)
 			
 			callAPI("/api/players/update", {id: p1.id, rating: newR1})
 			callAPI("/api/players/update", {id: p2.id, rating: newR2})
@@ -132,19 +133,19 @@ tag app
 
 	<self>
 		<div .wrapper>
-			<div route='/'>
+			<div route='/antikun'>
+				<player-form [my:10px] @addPlayer=addPlayer>
+			<div route='/*'>
 				<nav>
-					<button .nav-button .selected=onLeaderboard @click=(do() onLeaderboard=true)> "Leaderboard"
-					<button .nav-button .selected=!onLeaderboard @click=(do() onLeaderboard=false)> "Settings"
-				if onLeaderboard
+					<button route-to='/leaderboard' .nav-button .selected=onLeaderboard @click=(do() onLeaderboard=true)> "Leaderboard"
+					<button route-to='/settings' .nav-button .selected=!onLeaderboard @click=(do() onLeaderboard=false)> "Settings"
+				<div route='/settings'>
+					if players.length > 1
+						<match-form [my:10px] players=players @addMatch=addMatch>
+				<div route='/*'>
 					if players.length > 0
 						<leaderboard [my:10px] matches=matches players=players @deletePlayer=deletePlayer>
 					if matches.length > 0
 						<match-history matches=matches players=players @revertMatch=revertMatch>
-				else
-					if players.length > 1
-						<match-form [my:10px] players=players @addMatch=addMatch>
-			<div route='/antikun'>
-				<player-form [my:10px] @addPlayer=addPlayer>
 
 imba.mount <app>
