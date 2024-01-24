@@ -143,6 +143,6 @@ tag app
 			else
 				if players.length > 1
 					<match-form [my:10px] players=players @addMatch=addMatch>
-				# <player-form [my:10px] @addPlayer=addPlayer visible=!onLeaderboard>
+				<player-form [my:10px] @addPlayer=addPlayer visible=!onLeaderboard>
 
 imba.mount <app>
