@@ -137,14 +137,14 @@ tag app
 				<nav>
 					<button route-to='/leaderboard' .nav-button .selected=onLeaderboard @click=(do() onLeaderboard=true)> "Leaderboard"
 					<button route-to='/settings' .nav-button .selected=!onLeaderboard @click=(do() onLeaderboard=false)> "Settings"
-				<div route='/leaderboard'>
+				<div route='/settings'>
+					if players.length > 1
+						<match-form [my:10px] players=players @addMatch=addMatch>
+				<div route='/*'>
 					if players.length > 0
 						<leaderboard [my:10px] matches=matches players=players @deletePlayer=deletePlayer>
 					if matches.length > 0
 						<match-history matches=matches players=players @revertMatch=revertMatch>
-				<div route='/settings'>
-					if players.length > 1
-						<match-form [my:10px] players=players @addMatch=addMatch>
 			<div route='/antikun'>
 				<player-form [my:10px] @addPlayer=addPlayer>
 
