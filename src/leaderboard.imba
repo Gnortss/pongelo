@@ -28,6 +28,6 @@ tag leaderboard
 				for p in players.filter(do(p) active.has(p.id)).sort(do(a,b) b.rating - a.rating)
 					<tr @click.ctrl.shift=handleDelete(p.id)>
 						<td> p.name
-						<td> Math.floor(p.rating)
+						<td> Math.round(p.rating)
 		else
 			<h2 [text-align: center]> "No active players in last 2 weeks"

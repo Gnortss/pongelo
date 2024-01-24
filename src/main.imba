@@ -136,11 +136,13 @@ tag app
 				<button .nav-button .selected=onLeaderboard @click=(do() onLeaderboard=true)> "Leaderboard"
 				<button .nav-button .selected=!onLeaderboard @click=(do() onLeaderboard=false)> "Settings"
 			if onLeaderboard
-				<leaderboard [my:10px] matches=matches players=players @deletePlayer=deletePlayer visible=onLeaderboard>
-				<match-history matches=matches players=players @revertMatch=revertMatch visible=onLeaderboard>
+				if players.length > 0
+					<leaderboard [my:10px] matches=matches players=players @deletePlayer=deletePlayer visible=onLeaderboard>
+				if matches.length > 0
+					<match-history matches=matches players=players @revertMatch=revertMatch visible=onLeaderboard>
 			else
 				if players.length > 1
 					<match-form [my:10px] players=players @addMatch=addMatch>
-				<player-form [my:10px] @addPlayer=addPlayer visible=!onLeaderboard>
+				# <player-form [my:10px] @addPlayer=addPlayer visible=!onLeaderboard>
 
 imba.mount <app>
