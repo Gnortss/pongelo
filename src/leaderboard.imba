@@ -2,9 +2,6 @@ tag leaderboard
 	prop players
 	prop matches
 
-	def handleDelete id
-		emit("deletePlayer", id)	
-
 	def activePlayers
 		ret = new Set()
 		date_now = Date.now!
@@ -15,19 +12,20 @@ tag leaderboard
 		return ret
 
 	<self>
-		css table
+		css table mx: auto
 			th w:150px border-bottom: 1px solid
 			td ta:center
+			h2 text-align:center
 
 		active = activePlayers!
 		if active.size > 0
-			<table [mx:auto]>
+			<table>
 				<tr>
 					<th> "Player"
 					<th> "Rating"
 				for p in players.filter(do(p) active.has(p.id)).sort(do(a,b) b.rating - a.rating)
-					<tr @click.ctrl.shift=handleDelete(p.id)>
+					<tr @click.ctrl.shift.emit("deletePlayer", p.id)>
 						<td> p.name
 						<td> Math.round(p.rating)
 		else
-			<h2 [text-align: center]> "No active players in last 2 weeks"
+			<h2> "No active players in last 2 weeks"

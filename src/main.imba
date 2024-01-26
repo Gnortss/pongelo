@@ -1,10 +1,11 @@
 import {nanoid} from "nanoid"
-import {persistData, loadData} from './persist.imba'
 import {callAPI} from "./api.js"
+import {rating} from "./utils.imba"
 import "./match-form.imba"
 import "./leaderboard.imba"
 import "./player-form.imba"
 import "./match-history.imba"
+import "./match-modal.imba"
 
 global css body p:0 c:warm2 bg:warm8 ff:Arial inset:0 d:vflex mx:auto my: 0
 
@@ -13,22 +14,6 @@ tag app
 	matches = []
 
 	onLeaderboard = true
-
-	def rating Ra, Rb, d, K=40
-		def prob(r1, r2)
-			(1.0 * 1.0) / (1 + 1.0 * Math.pow(10, (1.0 * (r1 - r2)) / 400))
-
-		let Pb = prob(Ra, Rb)
-		let Pa = prob(Rb, Ra)
-
-		if d # P1 wins
-			Ra = Ra + K * (1 - Pa)
-			Rb = Rb + K * (0 - Pb)
-		else
-			Ra = Ra + K * (0 - Pa)
-			Rb = Rb + K * (1 - Pb)
-		
-		return [Ra, Rb]
 
 	def addPlayer e
 		if e.detail.name === undefined or e.detail.rating === undefined or e.detail.name === ""
@@ -128,7 +113,6 @@ tag app
 	css .wrapper
 		width: min(100vw, 600px)
 		mx: auto
-		# bg: warm6
 	css .selected bgc:warm7
 
 	<self>
