@@ -1,0 +1,33 @@
+# PongElo
+
+## Setup stuff
+
+You are gonna need `npx wrangler`
+
+1. Copy `wrangler-example.toml` to `wrangler.toml` and insert database_id (get it from `npx wrangler d1 list` -> pongelo_preview_db)
+2. Run `npx wrangler pages dev --d1 PONGELO_DB=<database_id> -- npm run dev` for local development
+3. You might have issues with db not having the tables needed. So you might need to insert them on your own with something like: `npx wrangler d1 execute pongelo-preview-db --command "CREATE TABLE yada yada"`
+
+Local DB can be found inside `<repo>/.wrangler/state/v3/d1/miniflare-D1DatabaseObject/<db>`...
+
+You can open it with some kind of SQLite viewer and manage from there...
+
+```
+CREATE TABLE "matches" (
+	"id"	TEXT,
+	"p1_id"	TEXT,
+	"p2_id"	TEXT,
+	"p1_wins"	INTEGER,
+	"p2_wins"	INTEGER,
+	"p1_rating_diff"	REAL,
+	"p2_rating_diff"	REAL,
+	"created_at"	INTEGER,
+	PRIMARY KEY("id")
+)
+
+CREATE TABLE "players" (
+	"id"	TEXT,
+	"name"	TEXT,
+	"rating"	REAL,
+	PRIMARY KEY("id")
+)```

@@ -1,20 +1,10 @@
+import {getPlayer, getColor, formatRating as fr} from "./utils.imba"
+
 tag match-history
 	prop players
 	prop matches
 
 	playersdc = []
-
-	def getPlayer id
-		for p in playersdc
-			if p.id === id
-				return p
-		return null
-
-	def fr rating
-		Math.round(rating)
-
-	def getColor rating
-		if rating > 0 then "green" else "red"
 
 	def recentMatches
 		return matches.sort(do(a,b) b.created_at - a.created_at).slice(0, 10)
@@ -27,15 +17,15 @@ tag match-history
 		<div>
 			playersdc = JSON.parse(JSON.stringify(players))
 			for m in recentMatches!
-				p1 = getPlayer m.p1_id
-				p2 = getPlayer m.p2_id
+				p1 = getPlayer(playersdc, m.p1_id)
+				p2 = getPlayer(playersdc, m.p2_id)
 
 				if p1 === null or p2 === null
 					continue
 
 				<div .match @click.ctrl.shift=emit('revertMatch', m.id)>
 					css h3 my: 0
-					css p my: 0
+						p my: 0
 					css span
 						&.green color: green4
 						&.red color: red4
