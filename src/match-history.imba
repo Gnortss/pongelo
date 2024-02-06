@@ -36,7 +36,7 @@ tag match-history
 						&.red color: red4
 					<row>
 						<p .item [font-size: .5em c: warm5 text-align: center m: 0]> "{relativeTime.from(new Date(m.created_at))}"
-					<row [d:hflex jc:space-between mb:.5em mt: -.5em]>
+					<row [d:flex jc:space-between align-items: center mb:.5em mt: -.5em]>
 						<div .item [text-align: right flex-grow: 1 flex-basis: 0]>
 							<h3> p1.name
 							<div [font-size: .75em]>
