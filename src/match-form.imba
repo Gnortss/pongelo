@@ -41,6 +41,9 @@ tag match-form
 	def setup
 		if players.length < 2
 			return
+
+		# players = players.sort do(a,b) a.name.localeCompare(b.name)
+
 		p1 = players[0].id
 		p2 = players[1].id
 
@@ -59,11 +62,11 @@ tag match-form
 			<row>
 				<label> "Player 1"
 				<select bind=p1> 
-					for p in players
+					for p in players.sort(do(a,b) a.name.localeCompare(b.name))
 						<option value=p.id> p.name
 			<row>
 				<label> "Player 2"
-				<select bind=p2> for p in players
+				<select bind=p2> for p in players.sort(do(a,b) a.name.localeCompare(b.name))
 					<option value=p.id> p.name
 			<row>
 				<label> "{players.filter(do(el) el.id === p1)[0].name} wins:"
