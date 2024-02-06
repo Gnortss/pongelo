@@ -5,7 +5,7 @@ tag match-modal
 	prop data
 
 	css .modal d:block position:fixed z-index:1 pt:100px left:0 top:0 w:100vw h:100vh overflow:auto bgc:rgba(0,0,0,0.4)
-		.modal-content bgc:warm7 m:auto width:400px d:vflex
+		.modal-content bgc:warm7 m:auto width:300px d:vflex
 		.match my:.5em bgc: warm7 width:auto
 		.item mx:.25em my:.25em p:.25em
 		row d:hflex ja:center py:.25em
