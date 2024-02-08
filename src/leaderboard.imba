@@ -6,7 +6,7 @@ tag leaderboard
 		ret = new Set()
 		date_now = Date.now!
 		for m in matches
-			if date_now - m.created_at < 1209600000 # 2 weeks in ms
+			if date_now - m.created_at < 1209600000 * 2 # 4 weeks in ms
 				ret.add(m.p1_id)
 				ret.add(m.p2_id)
 		return ret
@@ -28,4 +28,4 @@ tag leaderboard
 						<td> p.name
 						<td> Math.round(p.rating)
 		else
-			<h2> "No active players in last 2 weeks"
+			<h2> "No active players in last 4 weeks"

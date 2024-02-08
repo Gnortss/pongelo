@@ -9,7 +9,7 @@ tag match-history
 	playersdc = []
 
 	def recentMatches
-		return matches.sort(do(a,b) b.created_at - a.created_at).slice(0, 10)
+		return matches.sort(do(a,b) b.created_at - a.created_at).slice(0, 25)
 
 	def setup
 		relativeTime = new RelativeTime();
