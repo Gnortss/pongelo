@@ -46,7 +46,7 @@ tag leaderboard
 					<th [w:150px]>
 				for p in players.filter(do(p) active.has(p.id)).sort(do(a,b) b.rating - a.rating)
 					<tr @click.ctrl.shift.emit("deletePlayer", p.id)>
-						<td [ta: left]> p.name
+						<td [ta: left bgc: parent bgc@hover: warm7 cursor:pointer]> p.name
 						<td [ta: right]> Math.round(p.rating)
 						<td [ta: left]> for c in recentMatchesToString(p.id)
 							<div .{c}> c
