@@ -31,10 +31,9 @@ tag leaderboard
 
 	<self>
 		css table mx: auto
-			th w:150px border-bottom: 1px solid
-			td ta:center
+			th w:100px border-bottom: 1px solid
 			h2 text-align:center
-		css div d:inline-block w:1.2em h:1.2em rd:0.6em mx:.05em c:black
+		css div ta:center d:inline-block w:1.2em h:1.2em rd:0.6em mx:.05em c:black
 			&.W bgc: green4
 			&.L bgc: red4
 
@@ -42,14 +41,14 @@ tag leaderboard
 		if active.size > 0
 			<table>
 				<tr>
-					<th> "Player"
-					<th> "Rating"
-					<th>
+					<th [ta: left]> "Player"
+					<th [ta: right]> "Rating"
+					<th [w:150px]>
 				for p in players.filter(do(p) active.has(p.id)).sort(do(a,b) b.rating - a.rating)
 					<tr @click.ctrl.shift.emit("deletePlayer", p.id)>
-						<td> p.name
-						<td> Math.round(p.rating)
-						<td> for c in recentMatchesToString(p.id)
+						<td [ta: left]> p.name
+						<td [ta: right]> Math.round(p.rating)
+						<td [ta: left]> for c in recentMatchesToString(p.id)
 							<div .{c}> c
 		else
 			<h2> "No active players in last 4 weeks"
