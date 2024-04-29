@@ -42,7 +42,7 @@ tag leaderboard
 			<table>
 				<tr>
 					<th [ta: left]> "Player"
-					<th [ta: right]> "Rating"
+					<th [ta: right w:auto]> "Rating"
 					<th [w:150px]>
 				for p in players.filter(do(p) active.has(p.id)).sort(do(a,b) b.rating - a.rating)
 					<tr @click.ctrl.shift.emit("deletePlayer", p.id)>
