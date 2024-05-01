@@ -21,7 +21,7 @@ export def getPlayer arr, id
 	return null
 
 export def formatRating r
-	return Math.round(r)
+	return Math.round(r + Number.EPSILON)
 
 export def getColor r
 	if r > 0 then "green" else "red"

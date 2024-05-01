@@ -4,6 +4,7 @@ import {rating} from "./utils.imba"
 import "./match-form.imba"
 import "./leaderboard.imba"
 import "./player-form.imba"
+import "./player.imba"
 import "./match-history.imba"
 import "./match-modal.imba"
 
@@ -13,7 +14,8 @@ tag app
 	players = []
 	matches = []
 
-	onLeaderboard = true
+	onLeaderboard = route..path == "/leaderboard"
+	onSettings = route..path == "/settings"
 
 	def addPlayer e
 		if e.detail.name === undefined or e.detail.rating === undefined or e.detail.name === ""
@@ -109,6 +111,15 @@ tag app
 	def setup
 		refresh!
 
+	def switchTo curr
+		switch curr
+			when "leaderboard"
+				onLeaderboard = true
+				onSettings = false
+			when "settings"
+				onLeaderboard = false
+				onSettings = true
+
 	css .nav-button w: 50% h: 3em c:warm2 bgc:warm8 @hover:warm7 bd: 0px
 	css .wrapper
 		width: min(100vw, 600px)
@@ -121,11 +132,13 @@ tag app
 				<player-form [my:10px] @addPlayer=addPlayer>
 			<div route='/*'>
 				<nav>
-					<button route-to='/leaderboard' .nav-button .selected=onLeaderboard @click=(do() onLeaderboard=true)> "Leaderboard"
-					<button route-to='/settings' .nav-button .selected=!onLeaderboard @click=(do() onLeaderboard=false)> "Settings"
+					<button route-to='/leaderboard' .nav-button .selected=onLeaderboard> "Leaderboard"
+					<button route-to='/settings' .nav-button .selected=onSettings> "Settings"
 				<div route='/settings'>
 					if players.length > 1
 						<match-form [my:10px] players=players @addMatch=addMatch>
+				<player route='/player/:id' matches=matches players=players>
+					
 				<div route='/*'>
 					if players.length > 0
 						<leaderboard [my:10px] matches=matches players=players @deletePlayer=deletePlayer>
