@@ -47,14 +47,14 @@ tag player
 		let player_matches = playerMatches(pid)
 		for m in player_matches
 			if m.p1_id != pid
-				opp_map[m.p1_id] = opp_map.get(m.p1_id) != undefined ? opp_map[m.p1_id] + 1 : 1
+				opp_map.set(m.p1_id, opp_map.has(m.p1_id) ? opp_map.get(m.p1_id) + 1 : 1)
 			elif m.p2_id != pid
-				opp_map[m.p2_id] = opp_map.get(m.p2_id) != undefined ? opp_map[m.p2_id] + 1 : 1
+				opp_map.set(m.p2_id, opp_map.has(m.p2_id) ? opp_map.get(m.p2_id) + 1 : 1)
 		let most_freq_opp_id = undefined
-		for own k, v of opp_map
+		for [k, v] of opp_map
 			if most_freq_opp_id == undefined
 				most_freq_opp_id = k
-			elif opp_map[most_freq_opp_id] < v
+			elif opp_map.get(most_freq_opp_id) < v
 				most_freq_opp_id = k
 		let most_freq_opp = getPlayer(most_freq_opp_id)
 		let common_matches = player_matches.filter(do(m) (m.p1_id == pid and m.p2_id == most_freq_opp_id) or (m.p2_id == pid and m.p1_id == most_freq_opp_id))
