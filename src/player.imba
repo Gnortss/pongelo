@@ -52,6 +52,8 @@ tag player
 				opp_map.set(m.p2_id, opp_map.has(m.p2_id) ? opp_map.get(m.p2_id) + 1 : 1)
 		let most_freq_opp_id = undefined
 		for [k, v] of opp_map
+			if getPlayer(k) == undefined
+				continue
 			if most_freq_opp_id == undefined
 				most_freq_opp_id = k
 			elif opp_map.get(most_freq_opp_id) < v
@@ -84,14 +86,14 @@ tag player
 			<h2 [mx:8px]> player.name
 			# -- basic stats --
 			<h3 [mx:8px mt:1em mb:0 color:warm4]> "Player stats"
-			<div [w:inherit mx:8px d:flex justify-content:space-between]>
+			<div [w:inherit mx:8px d:flex justify-content:space-between align-items: flex-end]>
 				for own k, v of basicStats(player)
 					<div [pr:.5em pr@last:0]>
 						<h2 [mt: .5em mb: 0.1em]> v
 						<p [mb: 1em mt: 0.1em font-size: 0.75em color: warm4]> k
 			# -- most frequest opponent --
 			<h3 [mx:8px mt:1em mb:0 color:warm4]> "Most frequent opponent"
-			<div [w:inherit mx:8px d:flex justify-content:space-between]>
+			<div [w:inherit mx:8px d:flex justify-content:space-between align-items: flex-end]>
 				for own k, v of mostFrequentOpponentStats(player.id)
 					<div [pr:.5em pr@last:0]>
 						<h2 [mt: .5em mb: 0.1em]> v
