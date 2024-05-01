@@ -44,10 +44,10 @@ tag player
 		let player = getPlayer(route.params.id)
 		if player != undefined
 			# route.params.idx
-			<h2> player.name
-			<div [h:100px w:inherit d:flex justify-content:space-around]>
+			<h2 [mx:8px]> player.name
+			<div [h:100px w:inherit mx:8px d:flex justify-content:space-between]>
 				for own k, v of basicStats(player)
-					<div [pr:1em pr@last:0]>
+					<div [pr:.5em pr@last:0]>
 						<h2 [mt: 1em mb: 0.1em]> v
 						<p [mb: 1em mt: 0.1em font-size: 0.75em color: warm4]> k
 			<match-history players=players matches=playerMatches(player.id)>
