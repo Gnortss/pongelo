@@ -47,7 +47,7 @@ tag player
 			<h2> player.name
 			<div [h:100px w:inherit d:flex justify-content:space-around]>
 				for own k, v of basicStats(player)
-					<div [px:1em]>
+					<div [pr:1em pr@last:0]>
 						<h2 [mt: 1em mb: 0.1em]> v
 						<p [mb: 1em mt: 0.1em font-size: 0.75em color: warm4]> k
 			<match-history players=players matches=playerMatches(player.id)>
